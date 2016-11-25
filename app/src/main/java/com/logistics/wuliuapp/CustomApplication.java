@@ -18,11 +18,18 @@ public class CustomApplication extends Application{
 
     private AppComponent appComponent;
 
+    private static CustomApplication mInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
         AppUtils.init(this);
         initComponent();
+    }
+
+    public static CustomApplication getInstance(){
+        return mInstance;
     }
 
     private void initComponent(){

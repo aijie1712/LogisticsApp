@@ -7,7 +7,7 @@ import javax.inject.Inject;
 /**
  * Created by Administrator on 2016-11-25
  *
- * @desc  有网络请求的页面
+ * @desc 有网络请求的页面
  */
 
 public abstract class BaseRxActivity<T extends BaseContract.BasePresenter> extends BaseActivity {

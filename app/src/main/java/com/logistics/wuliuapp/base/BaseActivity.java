@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.logistics.wuliuapp.CustomApplication;
 import com.logistics.wuliuapp.R;
+import com.logistics.wuliuapp.component.AppComponent;
 import com.logistics.wuliuapp.widget.loadding.CustomDialog;
 
 import butterknife.ButterKnife;
@@ -28,6 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
 
         ButterKnife.bind(this);
+        setupActivityComponent(CustomApplication.getInstance().getAppComponent());
         commonToolbar = ButterKnife.findById(this, R.id.toolbar);
         if (commonToolbar != null) {
             setSupportActionBar(commonToolbar);
@@ -38,6 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         initView();
         initData();
     }
+
+    protected abstract void setupActivityComponent(AppComponent appComponent);
 
     /**
      * 设置title

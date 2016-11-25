@@ -1,5 +1,7 @@
 package com.logistics.wuliuapp.base;
 
+import com.logistics.wuliuapp.component.AppComponent;
+
 import javax.inject.Inject;
 
 /**
@@ -11,6 +13,8 @@ import javax.inject.Inject;
 public abstract class BaseRxFragment<T extends BaseContract.BasePresenter> extends BaseFragment {
     @Inject
     T mPresenter;
+
+    protected abstract void setupActivityComponent(AppComponent appComponent);
 
     /**
      * [此方法不可再重写]

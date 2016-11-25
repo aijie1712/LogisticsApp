@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.logistics.wuliuapp.CustomApplication;
+import com.logistics.wuliuapp.component.AppComponent;
 import com.logistics.wuliuapp.widget.loadding.CustomDialog;
 
 import butterknife.ButterKnife;
@@ -42,10 +44,13 @@ public abstract class BaseFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        setupActivityComponent(CustomApplication.getInstance().getAppComponent());
         attachView();
         initDatas();
         configViews();
     }
+
+    protected abstract void setupActivityComponent(AppComponent appComponent);
 
     public abstract void attachView();
 
