@@ -3,6 +3,7 @@ package com.logistics.wuliuapp.module;
 import com.logistics.wuliuapp.api.Api;
 import com.logistics.wuliuapp.api.HeaderInterceptor;
 import com.logistics.wuliuapp.api.LoggingInterceptor;
+import com.logistics.wuliuapp.api.ResponseInterceptor;
 import com.logistics.wuliuapp.utils.LogUtils;
 
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,8 @@ public class ApiModule {
                 .readTimeout(20 * 1000, TimeUnit.MILLISECONDS)
                 .retryOnConnectionFailure(true) // 失败重发
                 .addInterceptor(new HeaderInterceptor())
-                .addInterceptor(logging);
+                .addInterceptor(logging)
+                .addNetworkInterceptor(new ResponseInterceptor());
         return builder.build();
     }
 
@@ -41,7 +43,7 @@ public class ApiModule {
     public static class MyLog implements LoggingInterceptor.Logger {
         @Override
         public void log(String message) {
-            LogUtils.i("oklog: " + message);
+            // LogUtils.i("oklog: " + message);
         }
     }
 }

@@ -5,5 +5,5 @@ package com.logistics.wuliuapp;
  */
 
 public interface Constant {
-    String BASE_URL = "";
+    String BASE_URL = "http://www.youtonggao.com/ytg/";
 }

@@ -14,7 +14,7 @@ import com.logistics.wuliuapp.utils.AppUtils;
  * @desc
  */
 
-public class CustomApplication extends Application{
+public class CustomApplication extends Application {
 
     private AppComponent appComponent;
 
@@ -28,11 +28,11 @@ public class CustomApplication extends Application{
         initComponent();
     }
 
-    public static CustomApplication getInstance(){
+    public static CustomApplication getInstance() {
         return mInstance;
     }
 
-    private void initComponent(){
+    private void initComponent() {
         appComponent = DaggerAppComponent.builder()
                 .apiModule(new ApiModule())
                 .appModule(new AppModule(this))
