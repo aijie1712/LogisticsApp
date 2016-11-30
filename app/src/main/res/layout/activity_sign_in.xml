@@ -8,7 +8,7 @@
     android:background="@color/colorPrimary"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="com.logistics.wuliuapp.ui.SignInActivity">
+    tools:context=".ui.SignInActivity">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdf_photo"

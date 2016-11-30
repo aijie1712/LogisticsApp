@@ -32,7 +32,7 @@ public class UiUtil {
         public void run() {
             if (mToast != null) {
                 mToast.cancel();
-                mToast = null;              // toast 隐藏后，将其置为 null
+                mToast = null;
             }
         }
     };

@@ -1,27 +1,29 @@
 package com.logistics.wuliuapp;
 
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.logistics.wuliuapp.api.Api;
 import com.logistics.wuliuapp.base.BaseActivity;
 import com.logistics.wuliuapp.component.AppComponent;
 import com.logistics.wuliuapp.component.DaggerMainComponent;
-import com.logistics.wuliuapp.model.BaseModel;
-import com.logistics.wuliuapp.utils.LogUtils;
+import com.logistics.wuliuapp.ui.adapter.ViewPagerAdapter;
+import com.logistics.wuliuapp.ui.fragment.HomeFragment;
 import com.logistics.wuliuapp.widget.ScrollControlViewPager;
 import com.logistics.wuliuapp.widget.tabview.TabItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
 
     @Bind(R.id.viewPager)
-    ScrollControlViewPager viewPager;
+    ScrollControlViewPager mViewPager;
     @Bind(R.id.actionbar_info)
     TabItem actionbarInfo;
     @Bind(R.id.actionbar_publish)
@@ -34,6 +36,10 @@ public class MainActivity extends BaseActivity {
     @Inject
     Api api;
 
+    private int mIndex = 0;
+    private List<TabItem> mTabItems;
+    private int[] mTabItemsId;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -41,31 +47,73 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        api.getTest("", 1, 10, "", "")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BaseModel>() {
-                    @Override
-                    public void onCompleted() {
-                        LogUtils.i("onCompleted==");
-                    }
+        initBottomView();
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        LogUtils.e("onError==" + e.toString());
-                        Log.e("aijie", "onError==", e);
-                    }
+        List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(HomeFragment.newInstance(""));
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), fragmentList);
+        mViewPager.setAdapter(viewPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setScroll(false);
+        mViewPager.addOnPageChangeListener(mViewPagerChangeListener);
+        mViewPager.setCurrentItem(0);
+    }
 
-                    @Override
-                    public void onNext(BaseModel baseModel) {
-                        LogUtils.i("onNext==" + baseModel.toString());
-                    }
-                });
+    private void initBottomView() {
+        mTabItemsId = new int[]{};
+        mTabItems = new ArrayList<>();
+        for (int i = 0; i < mTabItemsId.length; i++) {
+            TabItem tabItem = (TabItem) findViewById(mTabItemsId[i]);
+            tabItem.setOnClickListener(mTabItemClickListener);
+            mTabItems.add(tabItem);
+        }
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerMainComponent.builder().appComponent(appComponent).build().inject(this);
     }
+
+    private ViewPager.OnPageChangeListener mViewPagerChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            if (positionOffset > 0) {
+                mTabItems.get(position).setTabAlpha(1 - positionOffset);
+                mTabItems.get(position + 1).setTabAlpha(positionOffset);
+            } else {
+                mTabItems.get(position).setTabAlpha(1 - positionOffset);
+            }
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            mIndex = position;
+            // updateTitle();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
+
+    private View.OnClickListener mTabItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = Integer.valueOf((String) v.getTag());
+            if (mViewPager.getCurrentItem() == position) {
+                return;
+            }
+            for (TabItem tabItem : mTabItems) {
+                tabItem.setTabAlpha(0);
+            }
+            mTabItems.get(position).setTabAlpha(1);
+            mViewPager.setCurrentItem(position, false);
+        }
+    };
 }

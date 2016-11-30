@@ -27,6 +27,11 @@ public class SignInActivity extends BaseActivity {
     }
 
     @Override
+    protected void initData() {
+
+    }
+
+    @Override
     protected void setupActivityComponent(AppComponent appComponent) {
 
     }

@@ -84,10 +84,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutId();
 
-    protected void initView(){}
+    protected abstract void initView();
 
-    protected void initData() {
-    }
+    protected abstract void initData();
 
     protected void gone(final View... views) {
         if (views != null && views.length > 0) {
