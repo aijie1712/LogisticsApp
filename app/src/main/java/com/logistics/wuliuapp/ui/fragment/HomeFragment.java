@@ -10,7 +10,6 @@ public class HomeFragment extends BaseRxFragment {
     private static final String ARG_PARAM1 = "param1";
 
     private String mParam1;
-    private String mParam2;
 
     public HomeFragment() {
     }
